@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+/*
+ * Paleta oscura cinematográfica. Contraste verificado contra --color-ink-950:
+ *  - foreground  #f5f5f4  ≈ 18:1
+ *  - muted       #a8a29e  ≈ 7.9:1 (AA para texto de cuerpo)
+ *  - accent      #e0822a  ≈ 6.4:1 (AA para texto y UI)
+ */
+@theme {
+  --color-ink-950: #0a0a0a;
+  --color-ink-900: #111111;
+  --color-ink-850: #161616;
+  --color-ink-800: #1c1c1c;
+  --color-ink-700: #2a2a2a;
+  --color-ink-600: #3a3a3a;
+  --color-fg: #f5f5f4;
+  --color-muted: #a8a29e;
+  --color-accent: #e0822a;
+  --color-accent-strong: #f09340;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), var(--font-inter), ui-sans-serif, sans-serif;
+
+  --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-ink-950);
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ink-950);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-ink-950);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+@utility container-site {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility animate-fade-up {
+  animation: fade-up 0.9s var(--ease-cinematic) both;
+}
+
+/* Fondo del <dialog> nativo para el menú y el lightbox */
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.85);
+  backdrop-filter: blur(6px);
+}
